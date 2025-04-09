@@ -1,0 +1,124 @@
+/* Container for the entire gallery */
+.habit-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    font-family: var(--font-default);
+  }
+  
+  /* Individual habit card + reset */
+  .habit-card, .habit-card * {
+    all: unset;
+    box-sizing: border-box;
+  }
+  
+  .habit-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 220px;
+    background-color: var(--background-primary);
+    border-radius: 16px;
+    padding: 16px;
+    font-family: var(--font-default);
+    box-shadow: 0 2px 6px var(--background-modifier-box-shadow);
+  }
+  
+  /* Top-right circular progress placeholder (if no SVG) */
+  .habit-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--background-modifier-border);
+    border-radius: 50%;
+    background-color: var(--background-secondary);
+  }
+  
+  /* Icon in top-left */
+  .card-icon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Text container */
+  .card-text {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  /* Title */
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-normal);
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  /* Subtitle */
+  .card-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  /* Subhabit checklist */
+  .subhabits {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  
+  .subhabit {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-normal);
+    line-height: 1.2;
+  }
+  
+  /* Custom circular checkboxes */
+  .subhabit input[type="checkbox"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--background-modifier-border);
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-left: 0;
+    position: relative;
+    cursor: pointer;
+    transition: border 0.2s ease;
+    flex-shrink: 0;
+  }
+  
+  .subhabit input[type="checkbox"]:checked {
+    border-color: var(--interactive-accent);
+    background-color: var(--interactive-accent);
+  }
+  
+  .subhabit input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 6px;
+    height: 6px;
+    background: var(--background-primary);
+    border-radius: 50%;
+  }
+  
