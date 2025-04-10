@@ -15,31 +15,6 @@ export default class HabitTrackerPlugin extends Plugin {
     const habits = await loadHabits(this.app, this.settings.habitsFolder);
     console.log("Loaded habits:", habits);
 
-	this.registerMarkdownCodeBlockProcessor("habitdisplay", async (source, el, ctx) => {
-		const type = source.trim().toLowerCase(); // "daily", "weekly", etc.
-		if (!["daily", "weekly", "monthly"].includes(type)) {
-		  el.createEl("p", { text: `Unknown habit type: ${type}` });
-		  return;
-		}
-	  
-		const habits = await loadHabits(this.app, this.settings.habitsFolder);
-		const filtered = habits.filter(h => h.type.toLowerCase() === type);
-	  
-		const container = el.createDiv({ cls: "habit-gallery" });
-	  
-		for (const habit of filtered) {
-      console.log(habit)
-		  const streak = computeStreak(habit.entries);
-		  const doneToday = isDoneToday(habit.entries);
-	  
-		  const card = container.createDiv({ cls: "habit-card" });
-	  
-		  card.innerHTML = `<div class="card-text">
-			  <p class="card-title">${habit.name}</p>
-			  <p class="card-subtitle">🔥 ${streak} day streak</p>
-			</div>`;
-		}
-	  });
     this.registerView(
       'habit-sidebar-view',
       (leaf) => new HabitSidebarView(leaf, this)

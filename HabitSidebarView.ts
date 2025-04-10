@@ -24,6 +24,11 @@ export class HabitSidebarView extends ItemView {
     const container = this.containerEl.children[1];
     container.empty();
 
+    const header = container.createEl("p", {
+        text: "Today's Habits",
+      });
+header.classList.add("habit-sidebar-header");
+
     const wrapper = container.createDiv({ cls: "habit-sidebar-grid" });
 
     const habits = await loadHabits(this.app, this.plugin.settings.habitsFolder, this.plugin.iconMap);
