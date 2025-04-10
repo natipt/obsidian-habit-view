@@ -82,6 +82,16 @@ class HabitTrackerSettingTab extends PluginSettingTab {
           this.plugin.settings.habitsFolder = value;
           await this.plugin.saveSettings();
         }));
+    new Setting(containerEl)
+    .setName("Show 'Today's Habits' header")
+    .setDesc("Toggle the header text at the top of the sidebar.")
+    .addToggle(toggle => toggle
+      .setValue(this.plugin.settings.showSidebarHeader)
+      .onChange(async (value) => {
+        this.plugin.settings.showSidebarHeader = value;
+        await this.plugin.saveSettings();
+        this.plugin.refreshSidebar?.(); // Re-render if needed
+      }));      
   }
 }
 

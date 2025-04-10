@@ -1,7 +1,9 @@
 export interface HabitTrackerSettings {
-    habitsFolder: string;
-  }
-  
+  habitsFolder: string;
+  showSidebarHeader: boolean; 
+}
+
 export const DEFAULT_SETTINGS: HabitTrackerSettings = {
-  habitsFolder: 'Habits',
+  habitsFolder: "Habits",
+  showSidebarHeader: true, 
 };

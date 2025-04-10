@@ -3,6 +3,7 @@ import { loadHabits } from "./data";
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { icons, createElement } from "lucide";
 import { markHabitDoneToday } from "./habitEdit";
+import { computeStreak } from "./streaks";
 
 export class HabitSidebarView extends ItemView {
   plugin: HabitTrackerPlugin;
@@ -24,10 +25,12 @@ export class HabitSidebarView extends ItemView {
     const container = this.containerEl.children[1];
     container.empty();
 
-    const header = container.createEl("p", {
+    if (this.plugin.settings.showSidebarHeader) {
+      const header = container.createEl("p", {
         text: "Today's Habits",
       });
-header.classList.add("habit-sidebar-header");
+      header.classList.add("habit-sidebar-header");
+    }
 
     const wrapper = container.createDiv({ cls: "habit-sidebar-grid" });
 
@@ -43,10 +46,12 @@ header.classList.add("habit-sidebar-header");
 
     for (const habit of dailyHabits) {
         const done = isDoneToday(habit.entries);
+        const streak = computeStreak(habit.entries);
       
         const iconBox = wrapper.createDiv({ cls: "habit-icon" });
         iconBox.setAttr("title", habit.name);
         iconBox.addClass(done ? "done" : "not-done");
+        iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
 
         function kebabToPascalCase(kebab: string): string {
             return kebab
