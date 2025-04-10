@@ -13,7 +13,6 @@ export default class HabitTrackerPlugin extends Plugin {
 
     // TEMP: load data on startup
     const habits = await loadHabits(this.app, this.settings.habitsFolder);
-    console.log("Loaded habits:", habits);
 
     this.registerView(
       'habit-sidebar-view',

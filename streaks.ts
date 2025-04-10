@@ -7,7 +7,6 @@ export function isDoneToday(entries: HabitEntry[]): boolean {
 }
 
 export function computeStreak(entries: HabitEntry[]): number {
-  console.log("Raw entries:", entries);
   const sorted = entries
     .filter(e => e.done && e.completedDate && e.completedDate.trim() !== "")
     .sort((a, b) => (a.completedDate! > b.completedDate! ? 1 : -1)) // ascending
