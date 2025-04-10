@@ -47,11 +47,6 @@ header.classList.add("habit-sidebar-header");
         const iconBox = wrapper.createDiv({ cls: "habit-icon" });
         iconBox.setAttr("title", habit.name);
         iconBox.addClass(done ? "done" : "not-done");
-      
-        // const iconName = habit.icon || "lucide-book"; // full class name
-        // console.log("iconName ", iconName)
-        // const iconEl = iconBox.createSpan();
-        // setIcon(iconEl, "book");
 
         function kebabToPascalCase(kebab: string): string {
             return kebab
@@ -62,9 +57,6 @@ header.classList.add("habit-sidebar-header");
         const rawIcon = habit.icon?.replace(/^lucide-/, "") || "circle";
         const iconName = kebabToPascalCase(rawIcon); // e.g. "GlassWater"
 
-        console.log("iconName", iconName);
-        console.log("Available icons:", Object.keys(icons));
-        console.log("Icon name in icons", iconName in icons)
         let svg: SVGElement;
 
         if (iconName in icons) {
