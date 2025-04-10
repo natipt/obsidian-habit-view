@@ -1,7 +1,8 @@
 import { Plugin, PluginSettingTab, App, Setting } from 'obsidian';
 import { HabitTrackerSettings, DEFAULT_SETTINGS } from './settings';
 import { loadHabits } from './data';
-import { isDoneToday, computeStreak } from './streaks'
+import { isDoneToday, computeStreak } from './streaks';
+import { HabitSidebarView } from './HabitSidebarView';
 
 export default class HabitTrackerPlugin extends Plugin {
   settings: HabitTrackerSettings;
@@ -39,6 +40,27 @@ export default class HabitTrackerPlugin extends Plugin {
 			</div>`;
 		}
 	  });
+    this.registerView(
+      'habit-sidebar-view',
+      (leaf) => new HabitSidebarView(leaf, this)
+    );
+    
+    this.app.workspace.onLayoutReady(() => {
+      this.app.workspace.getRightLeaf(false).setViewState({
+        type: 'habit-sidebar-view',
+        active: true
+      });
+    });
+
+    this.registerEvent(
+      this.app.metadataCache.on("changed", async (file) => {
+        // If the file is in your habit folder, re-render
+        if (file.path.startsWith(this.settings.habitsFolder)) {
+          console.log("[HabitSidebar] Detected habit file change:", file.path);
+          this.refreshSidebar?.();
+        }
+      })
+    );
 	  
   }
 
@@ -49,6 +71,17 @@ export default class HabitTrackerPlugin extends Plugin {
   async saveSettings() {
     await this.saveData(this.settings);
   }
+
+  refreshSidebar() {
+    const leaves = this.app.workspace.getLeavesOfType("habit-sidebar-view");
+    for (const leaf of leaves) {
+      const view = leaf.view;
+      if (typeof (view as any).render === "function") {
+        (view as any).render();
+      }
+    }
+  }
+  
 }
 
 class HabitTrackerSettingTab extends PluginSettingTab {
@@ -77,3 +110,4 @@ class HabitTrackerSettingTab extends PluginSettingTab {
         }));
   }
 }
+

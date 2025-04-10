@@ -127,3 +127,35 @@
     border-radius: 50%;
   }
   
+
+
+  /* SIDEBAR */
+
+  .habit-sidebar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .habit-icon {
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--background-secondary);
+    display: flex;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+  }
+  
+  .habit-icon.done {
+    background-color: currentColor; /* comes from icon fill */
+    border-color: currentColor;
+    color: white; /* makes icon white if you want contrast */
+  }
+  
+  .habit-icon.not-done {
+    background-color: var(--background-modifier-hover);
+    border-color: #bbb;
+  }
