@@ -1,8 +1,10 @@
-import { Plugin, PluginSettingTab, App, Setting } from 'obsidian';
+import { Plugin, PluginSettingTab, App, Setting, normalizePath } from 'obsidian';
 import { HabitTrackerSettings, DEFAULT_SETTINGS } from './settings';
 import { loadHabits } from './data';
 import { isDoneToday, computeStreak } from './streaks';
 import { HabitSidebarView } from './HabitSidebarView';
+import Sortable from "sortablejs";
+
 
 export default class HabitTrackerPlugin extends Plugin {
   settings: HabitTrackerSettings;
@@ -81,7 +83,8 @@ class HabitTrackerSettingTab extends PluginSettingTab {
         .onChange(async (value) => {
           this.plugin.settings.habitsFolder = value;
           await this.plugin.saveSettings();
-        }));
+    }));
+
     new Setting(containerEl)
     .setName("Show 'Today's Habits' header")
     .setDesc("Toggle the header text at the top of the sidebar.")
@@ -91,7 +94,42 @@ class HabitTrackerSettingTab extends PluginSettingTab {
         this.plugin.settings.showSidebarHeader = value;
         await this.plugin.saveSettings();
         this.plugin.refreshSidebar?.(); // Re-render if needed
-      }));      
+    }));  
+
+    const dailyFolderPath = normalizePath(`${this.plugin.settings.habitsFolder}/Daily`);
+    const dailyFiles = this.app.vault.getFiles().filter(f =>
+      f.path.startsWith(dailyFolderPath)
+    );
+
+    const habitNames = dailyFiles.map(f => f.basename);
+
+    // Use saved order or default to vault order
+    const ordered = this.plugin.settings.habitOrder.length > 0
+      ? this.plugin.settings.habitOrder
+      : habitNames;
+
+    containerEl.createEl("h3", { text: "Daily Habit Order" });
+
+    const listContainer = containerEl.createDiv({ cls: "habit-order-list" });
+
+    ordered.forEach(name => {
+      const item = listContainer.createDiv({ cls: "habit-order-item" });
+      item.setText(name);
+      item.setAttr("data-habit", name);
+    });
+
+    Sortable.create(listContainer, {
+      animation: 150,
+      onEnd: async () => {
+        const newOrder = Array.from(listContainer.children).map(
+          (el: Element) => el.getAttribute("data-habit")!
+        );
+        this.plugin.settings.habitOrder = newOrder;
+        await this.plugin.saveSettings();
+        this.plugin.refreshSidebar?.();
+      }
+    });    
   }
 }
+
 

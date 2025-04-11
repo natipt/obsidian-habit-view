@@ -1,44 +1,62 @@
 
-  /* SIDEBAR */
+/* SIDEBAR */
 
-  .habit-sidebar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
-    gap: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  
-  .habit-icon {
-    padding: 0.5rem;
-    border-radius: 50%;
-    background-color: var(--background-secondary);
-    display: flex;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    align-items: center;
-  }
-  
-  .habit-icon.done {
-    background-color: currentColor; /* comes from icon fill */
-    border-color: currentColor;
-    color: white; /* makes icon white if you want contrast */
-  }
-  
-  .habit-icon.not-done {
-    background-color: var(--background-modifier-hover);
-    border-color: #bbb;
-  }
+.habit-sidebar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.habit-icon {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--background-secondary);
+  display: flex;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+}
+
+.habit-icon.done {
+  background-color: currentColor; /* comes from icon fill */
+  border-color: currentColor;
+  color: white; /* makes icon white if you want contrast */
+}
+
+.habit-icon.not-done {
+  background-color: var(--background-modifier-hover);
+  border-color: #bbb;
+}
 
 
-  .habit-sidebar-header {
-    font-size: var(--font-ui-medium);
-    font-weight: 500;
-    text-align: center;
-    margin: 0.5rem 0 0.25rem 0;
-    color: var(--text-normal);
-    padding-bottom: 1rem;
-  }
+.habit-sidebar-header {
+  font-size: var(--font-ui-medium);
+  font-weight: 500;
+  text-align: center;
+  margin: 0.5rem 0 0.25rem 0;
+  color: var(--text-normal);
+  padding-bottom: 1rem;
+}
+
+
+
+/* Settings */
+.habit-order-list {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.habit-order-item {
+  padding: 0.3rem 0.6rem;
+  margin: 0.2rem 0;
+  background: var(--background-secondary);
+  border-radius: 4px;
+  cursor: move;
+}

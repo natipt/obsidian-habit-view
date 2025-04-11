@@ -31,7 +31,7 @@ export class HabitSidebarView extends ItemView {
       });
       header.classList.add("habit-sidebar-header");
     } 
-    
+
     const wrapper = container.createDiv({ cls: "habit-sidebar-grid" });
 
     const habits = await loadHabits(this.app, this.plugin.settings.habitsFolder, this.plugin.iconMap);
@@ -42,6 +42,17 @@ export class HabitSidebarView extends ItemView {
     if (dailyHabits.length === 0) {
       wrapper.createEl("p", { text: "No daily habits found." });
       return;
+    }
+
+    // ORDER THEM ACCORDING TO THE SETTING
+    const ordered = this.plugin.settings.habitOrder;
+
+    if (ordered?.length > 0) {
+      dailyHabits.sort((a, b) => {
+        const aIndex = ordered.indexOf(a.name);
+        const bIndex = ordered.indexOf(b.name);
+        return aIndex - bIndex;
+      });
     }
 
     for (const habit of dailyHabits) {
