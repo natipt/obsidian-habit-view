@@ -19,7 +19,8 @@ export function parseHabitFile(content: string): {
     const headingMatch = line.match(/^# (.+)/);
     if (headingMatch) { 
       // If there was already a subhabit being read before
-      if (currentHeading && entries.length > 0) {
+      // push it even if it has no entries
+      if (currentHeading) {
         subhabits.push({
           name: currentHeading,
           entries: entries,

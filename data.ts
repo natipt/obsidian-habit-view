@@ -46,6 +46,6 @@ export async function loadHabits(app: App, basePath: string): Promise<Habit[]> {
       });
     }
   }
-
+  
   return habits;
 }
