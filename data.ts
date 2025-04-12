@@ -26,7 +26,9 @@ export async function loadHabits(app: App, basePath: string): Promise<Habit[]> {
 
     for (const file of files) {
       const content = await app.vault.read(file);
-      const entries = parseHabitFile(content);
+      // const entries = parseHabitFile(content);
+      const parsed = parseHabitFile(content);
+      console.log(`[Habit Tracker] Parsed ${file.basename}:`, parsed);
 
       const iconMeta = iconMap[file.path] ?? {};
       const icon = iconMeta.icon ?? "lucide-book";
