@@ -99,6 +99,7 @@ export class HabitSidebarView extends ItemView {
         console.log(`${habit.name} has subs and am adding tooltip`)
         // tooltip = wrapper.createDiv({ cls: "habit-tooltip" });
         const tooltip = document.createElement("div");
+        tooltip.classList.add("habit-tooltip");
         tooltip.style.position = "fixed";
         tooltip.style.display = "none";
         document.body.appendChild(tooltip);

@@ -63,10 +63,10 @@
 
 /* SUBHABIT TOOLTIP */
 .habit-tooltip {
-  background: var(--background-secondary);
+  background-color: var(--background-secondary);
   border: 1px solid var(--background-modifier-border);
   border-radius: 8px;
-  padding: 6px;
+  padding: 10px;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   font-size: var(--font-ui-small);
