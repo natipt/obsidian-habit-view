@@ -78,7 +78,7 @@ export class HabitSidebarView extends ItemView {
         if (iconName in icons) {
             const iconNode = icons[iconName as keyof typeof icons]; // get the IconNode
             svg = createElement(iconNode);
-            console.log("svg", svg)
+            // console.log("svg", svg) // TESTED
         } else {
             console.warn(`[HabitSidebar] Unknown Lucide icon: '${iconName}', using fallback.`);
             svg = createElement(icons["Book"]);
