@@ -12,4 +12,9 @@ export interface Habit {
   entries: HabitEntry[];
   icon?: string;
   color?: string;
+  subhabits?: Subhabit[];
+}
+
+export interface Subhabit extends Habit {
+  isSubhabit: boolean; 
 }
