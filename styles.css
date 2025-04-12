@@ -12,9 +12,15 @@
 }
 
 .habit-icon {
+  --progess: 0%;
+  --progress-color: white;
   padding: 0.5rem;
   border-radius: 50%;
-  background-color: var(--background-secondary);
+  /* background-color: var(--background-secondary); */
+  background: conic-gradient(
+    var(--progress-color) var(--progress),
+    var(--background-modifier-hover) 0
+  );
   display: flex;
   justify-content: center;
   width: 32px;
@@ -22,7 +28,7 @@
   align-items: center;
 }
 
-.habit-icon.done {
+/* .habit-icon.done {
   background-color: currentColor; /* comes from icon fill */
   border-color: currentColor;
   color: white; /* makes icon white if you want contrast */
@@ -31,7 +37,7 @@
 .habit-icon.not-done {
   background-color: var(--background-modifier-hover);
   border-color: #bbb;
-}
+} */
 
 
 .habit-sidebar-header {

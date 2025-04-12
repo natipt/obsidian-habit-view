@@ -61,7 +61,8 @@ export class HabitSidebarView extends ItemView {
       // const streak = computeStreak(habit.entries); // TODO 
     
       const iconBox = wrapper.createDiv({ cls: "habit-icon" });
-      iconBox.addClass(done ? "done" : "not-done");
+      // iconBox.addClass(done ? "done" : "not-done");
+      iconBox.style.setProperty("--progress", `${done * 100}%`);
       // iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
       iconBox.setAttr("title", `${habit.name}`);
 
