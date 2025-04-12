@@ -37,7 +37,7 @@ export class HabitSidebarView extends ItemView {
     const habits = await loadHabits(this.app, this.plugin.settings.habitsFolder, this.plugin.iconMap);
     console.log("[Sidebar] Loaded habits:", habits);
 
-    const dailyHabits = habits.filter(h => h.type === "Daily");
+    const dailyHabits = habits.filter(h => h.type === "daily");
 
     if (dailyHabits.length === 0) {
       wrapper.createEl("p", { text: "No daily habits found." });
@@ -56,11 +56,11 @@ export class HabitSidebarView extends ItemView {
     }
 
     for (const habit of dailyHabits) {
-        const done = isDoneToday(habit.entries);
-        const streak = computeStreak(habit.entries);
+        const done = isDoneToday(habit);
+        // console.log(`${habit.name} is done today `, done) // TESTED
+        const streak = computeStreak(habit.entries); // TODO 
       
         const iconBox = wrapper.createDiv({ cls: "habit-icon" });
-        iconBox.setAttr("title", habit.name);
         iconBox.addClass(done ? "done" : "not-done");
         iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
 
