@@ -1,6 +1,10 @@
 import { HabitEntry, Subhabit } from './types';
 
-export function parseHabitFile(content: string): HabitEntry[] {
+export function parseHabitFile(content: string): {
+  hasSubhabits: boolean;
+  subhabits?: Subhabit[];
+  entries?: HabitEntry[];
+} {
   let entries: HabitEntry[] = [];
   const subhabits: Subhabit[] = [];
   let currentHeading: string | null = null;  
@@ -53,7 +57,17 @@ export function parseHabitFile(content: string): HabitEntry[] {
   }
 
   // FIX RETURN
-  return entries;
+  if (foundSubhabits) {
+    return {
+      hasSubhabits: true,
+      subhabits,
+    };
+  } else {
+    return {
+      hasSubhabits: false,
+      entries: entries,
+    };
+  }
 }
 
 
