@@ -43,32 +43,39 @@ export async function markHabitDoneToday(app: App, habit: Habit) {
     // Try to find and check an existing `[ ]` task
     let checked = false;
     let checkedLineIndex = -1;
+    let originalCheckedLine = "";
     const newLines = lines.map((line, index) => {
       if (!checked && line.match(/- \[ \]/) && !line.includes("✅")) {
         checked = true;
-        checkedLineIndex = index; // ✅ Set it here
-        const updated = line.replace("- [ ]", "- [x]") + ` ✅ ${today}`;
-        return updated;
+        checkedLineIndex = index;
+        originalCheckedLine = line;
+        return line.replace("- [ ]", "- [x]").trimEnd() + ` ✅ ${today}`;
       }
       return line;
     });
-    
-
+  
     // 3. If no existing task found, create a new one
     if (!checked) {
-      const newLine = `- [x] ${habit.name} 🔁 every day when done 📅 ${today} ✅ ${today}`;
-      newLines.push(newLine);
+      originalCheckedLine = `- [x] ${habit.name} 🔁 every day when done 📅 ${today} ✅ ${today}`;
+      newLines.push(originalCheckedLine);
       checked = true;
-      checkedLineIndex = newLines.length - 1; // just added
+      checkedLineIndex = newLines.length - 1;
     }
 
     // Check if we should add tomorrow's line
-    const isRepeating = newLines[checkedLineIndex]?.includes("🔁 every day when done");
+    const isRepeating = originalCheckedLine.includes("🔁 every day when done");
+
     if (isRepeating) {
-      console.log("Is repeating!!")
-      const tomorrowLine = `- [ ] ${habit.name} 🔁 every day when done 📅 ${tomorrow}`;
-      newLines.splice(checkedLineIndex, 0, tomorrowLine); // insert above the done line
+      // Copy and update the task for tomorrow
+      const tomorrowLine = originalCheckedLine
+        .replace("- [x]", "- [ ]")
+        .replace(/📅 \d{4}-\d{2}-\d{2}/, `📅 ${tomorrow}`)
+        .replace(/ ✅ \d{4}-\d{2}-\d{2}/, ""); // remove ✅ if present
+
+      newLines.splice(checkedLineIndex, 0, tomorrowLine);
     }
+
+  
     // const baseLine = `- [ ] ${habit.name} 🔁 every day when done 📅 ${tomorrow}`;
     // newLines.push(baseLine);
 
