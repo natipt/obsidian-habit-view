@@ -58,11 +58,12 @@ export class HabitSidebarView extends ItemView {
     for (const habit of dailyHabits) {
         const done = isDoneToday(habit);
         // console.log(`${habit.name} is done today `, done) // TESTED
-        const streak = computeStreak(habit.entries); // TODO 
+        // const streak = computeStreak(habit.entries); // TODO 
       
         const iconBox = wrapper.createDiv({ cls: "habit-icon" });
         iconBox.addClass(done ? "done" : "not-done");
-        iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
+        // iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
+        iconBox.setAttr("title", `${habit.name}`);
 
         function kebabToPascalCase(kebab: string): string {
             return kebab
