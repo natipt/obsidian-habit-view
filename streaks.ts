@@ -1,9 +1,14 @@
-import { HabitEntry } from './types';
+import { HabitEntry, Habit } from './types';
 import { moment } from 'obsidian';
 
-export function isDoneToday(entries: HabitEntry[]): boolean {
-  const today = moment().format("YYYY-MM-DD");
-  return entries.some(e => e.completedDate === today);
+export function isDoneToday(habit: Habit): boolean {
+  if (!habit.entries) {
+    return habit.subhabits.every(e => isDoneToday(e));
+  }
+  else {
+    const today = moment().format("YYYY-MM-DD");
+    return habit.entries.some(e => e.completedDate === today);
+  }
 }
 
 export function computeStreak(entries: HabitEntry[]): number {
