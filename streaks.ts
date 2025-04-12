@@ -1,6 +1,8 @@
 import { HabitEntry, Habit } from './types';
 import { moment } from 'obsidian';
 
+// TODOL need to account for instance where has no entries and also no subhabits!! 
+
 export function isDoneToday(habit: Habit): boolean {
   if (!habit.entries) {
     return habit.subhabits.every(e => isDoneToday(e));

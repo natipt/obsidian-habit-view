@@ -94,11 +94,57 @@ export class HabitSidebarView extends ItemView {
       // Append to your habit card
       iconBox.appendChild(svg);
 
-      iconBox.onclick = async () => {
+      let tooltip: HTMLDivElement | null = null;
+      if (!habit.entries && habit.subhabits) {
+        console.log(`${habit.name} has subs and am adding tooltip`)
+        // tooltip = wrapper.createDiv({ cls: "habit-tooltip" });
+        const tooltip = document.createElement("div");
+        tooltip.style.position = "fixed";
+        tooltip.style.display = "none";
+        document.body.appendChild(tooltip);
+        for (const sub of habit.subhabits) {
+          const row = tooltip.createDiv({ cls: "subhabit-row" });
+          const checkbox = row.createEl("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = isDoneToday(sub);
+          row.createSpan({ text: sub.name });
+          checkbox.addEventListener("click", async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            await markHabitDoneToday(this.app, sub);
+            this.plugin.refreshSidebar?.();
+          });
+        }
+        let hoverTimeout: number;
+
+        iconBox.addEventListener("mouseenter", () => {
+          clearTimeout(hoverTimeout);
+          const rect = iconBox.getBoundingClientRect();
+          tooltip.style.left = `${rect.left}px`;
+          tooltip.style.top = `${rect.bottom + 6}px`;
+          tooltip.style.display = "block";
+        });
+
+        iconBox.addEventListener("mouseleave", () => {
+          hoverTimeout = window.setTimeout(() => {
+            tooltip.style.display = "none";
+          }, 200); // slight delay
+        });
+
+        tooltip.addEventListener("mouseenter", () => {
+          clearTimeout(hoverTimeout);
+          tooltip.style.display = "block";
+        });
+
+        tooltip.addEventListener("mouseleave", () => {
+          tooltip.style.display = "none";
+        });
+      } else{
+        iconBox.onclick = async () => {
           await markHabitDoneToday(this.app, habit);
           this.plugin.refreshSidebar?.();
         };
-          
+      }   
     }
   }      
 

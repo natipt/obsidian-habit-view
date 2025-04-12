@@ -60,3 +60,22 @@
   border-radius: 4px;
   cursor: move;
 }
+
+/* SUBHABIT TOOLTIP */
+.habit-tooltip {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 6px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-size: var(--font-ui-small);
+  display: block;
+}
+
+.subhabit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}

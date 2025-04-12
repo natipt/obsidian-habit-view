@@ -15,8 +15,10 @@ export interface Habit {
   icon?: string;
   color?: string;
   subhabits?: Subhabit[];
+  isSubhabit?: boolean;
 }
 
 export interface Subhabit extends Habit {
-  isSubhabit: boolean; 
+  isSubhabit: boolean;  // TODO: DOES THIS SET IT AS MANDATORY?
+  parentHabit: string;
 }

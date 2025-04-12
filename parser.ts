@@ -1,6 +1,6 @@
 import { HabitEntry, Subhabit } from './types';
 
-export function parseHabitFile(content: string): {
+export function parseHabitFile(content: string, habitName: string): {
   hasSubhabits: boolean;
   subhabits?: Subhabit[];
   entries?: HabitEntry[];
@@ -25,6 +25,7 @@ export function parseHabitFile(content: string): {
           name: currentHeading,
           entries: entries,
           isSubhabit: true,
+          parentHabit: habitName,
         });
         entries = [];
       }
@@ -54,6 +55,7 @@ export function parseHabitFile(content: string): {
       name: currentHeading,
       entries: entries,
       isSubhabit: true,
+      parentHabit: habitName,
     });
   }
 

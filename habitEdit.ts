@@ -2,14 +2,45 @@ import { App, moment } from "obsidian";
 import { Habit } from "./types";
 
 export async function markHabitDoneToday(app: App, habit: Habit) {
+  console.log(`Mark habit done today called on ${habit.name}`)
   const today = moment().format("YYYY-MM-DD");
   const tomorrow = moment().add(1, "day").format("YYYY-MM-DD");
 
-  const file = app.vault.getMarkdownFiles().find(f => f.basename === habit.name);
+  // TODO: this only works if no other files in the whole vault have this basename
+  // I should really consider the whole path
+  let file = app.vault.getMarkdownFiles().find(f => f.basename === habit.name);
+  if (habit.isSubhabit) {
+    console.log("Parent habit ", habit.parentHabit)
+    file = app.vault.getMarkdownFiles().find(f => f.basename === habit.parentHabit);
+  }
   if (!file) return;
 
   const content = await app.vault.read(file);
-  const lines = content.split("\n");
+  const allLines = content.split("\n");
+  let lines: string[] = [];
+  let startIndex = 0;
+  let endIndex = 0;
+  // Get a specific section if subhabit 
+  if (habit.isSubhabit) {
+    const headingRegex = new RegExp(`^#+\\s*${habit.name}\\s*$`, "i");
+    startIndex = allLines.findIndex(line => headingRegex.test(line));
+    if (startIndex === -1) {
+      console.warn(`Could not find heading for subhabit: ${habit.name}`);
+      return;
+    }
+    endIndex = allLines.length;
+    for (let i = startIndex + 1; i < allLines.length; i++) {
+      if (/^#+\s+/.test(allLines[i])) {
+        endIndex = i;
+        break;
+      }
+    }
+    lines = allLines.slice(startIndex + 1, endIndex);
+  }
+  else {
+    lines = allLines;
+  }
+
   let modified = false;
 
   // 1. Try to uncheck today if already done
@@ -75,13 +106,6 @@ export async function markHabitDoneToday(app: App, habit: Habit) {
       newLines.splice(checkedLineIndex, 0, tomorrowLine);
     }
 
-  
-    // const baseLine = `- [ ] ${habit.name} 🔁 every day when done 📅 ${tomorrow}`;
-    // newLines.push(baseLine);
-
-    // lines.length = 0;
-    // lines.push(...newLines);
-    // modified = true;
     lines.length = 0;
     lines.push(...newLines);
     modified = true;
@@ -89,6 +113,11 @@ export async function markHabitDoneToday(app: App, habit: Habit) {
   }
 
   if (modified) {
-    await app.vault.modify(file, lines.join("\n"));
+    if (habit.isSubhabit) {
+      allLines.splice(startIndex + 1, endIndex - startIndex - 1, ...lines);
+      await app.vault.modify(file, allLines.join("\n"));
+    } else {
+      await app.vault.modify(file, lines.join("\n"));
+    }
   }
 }
