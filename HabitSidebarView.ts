@@ -109,8 +109,8 @@ export class HabitSidebarView extends ItemView {
           checkbox.checked = isDoneToday(sub);
           row.createSpan({ text: sub.name });
           checkbox.addEventListener("click", async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            // e.preventDefault();
+            // e.stopPropagation();
             await markHabitDoneToday(this.app, sub);
             this.plugin.refreshSidebar?.();
           });
