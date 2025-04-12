@@ -56,54 +56,50 @@ export class HabitSidebarView extends ItemView {
     }
 
     for (const habit of dailyHabits) {
-        const done = isDoneToday(habit);
-        // console.log(`${habit.name} is done today `, done) // TESTED
-        // const streak = computeStreak(habit.entries); // TODO 
-      
-        const iconBox = wrapper.createDiv({ cls: "habit-icon" });
-        iconBox.addClass(done ? "done" : "not-done");
-        // iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
-        iconBox.setAttr("title", `${habit.name}`);
+      const done = isDoneToday(habit);
+      // console.log(`${habit.name} is done today `, done) // TESTED
+      // const streak = computeStreak(habit.entries); // TODO 
+    
+      const iconBox = wrapper.createDiv({ cls: "habit-icon" });
+      iconBox.addClass(done ? "done" : "not-done");
+      // iconBox.setAttr("title", `${habit.name}\n🔥 ${streak} day streak`);
+      iconBox.setAttr("title", `${habit.name}`);
 
-        function kebabToPascalCase(kebab: string): string {
-            return kebab
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join("");
-          }
-        const rawIcon = habit.icon?.replace(/^lucide-/, "") || "circle";
-        const iconName = kebabToPascalCase(rawIcon); // e.g. "GlassWater"
-
-        let svg: SVGElement;
-
-        if (iconName in icons) {
-            const iconNode = icons[iconName as keyof typeof icons]; // get the IconNode
-            svg = createElement(iconNode);
-            // console.log("svg", svg) // TESTED
-        } else {
-            console.warn(`[HabitSidebar] Unknown Lucide icon: '${iconName}', using fallback.`);
-            svg = createElement(icons["Book"]);
+      function kebabToPascalCase(kebab: string): string {
+          return kebab
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join("");
         }
+      const rawIcon = habit.icon?.replace(/^lucide-/, "") || "circle";
+      const iconName = kebabToPascalCase(rawIcon); // e.g. "GlassWater"
 
-        svg.setAttribute("width", "24");
-        svg.setAttribute("height", "24");
-        svg.setAttribute("stroke", habit.color || "currentColor");
-        svg.setAttribute("stroke-width", "2");
-        svg.setAttribute("fill", "none");
+      let svg: SVGElement;
 
-        // Append to your habit card
-        iconBox.appendChild(svg);
-
-        iconBox.onclick = async () => {
-            await markHabitDoneToday(this.app, habit);
-            this.plugin.refreshSidebar?.();
-          };
-          
-
-        // iconEl.addClass("lucide");
-        // iconEl.addClass(iconName); // e.g. "lucide-glass-water"
-        // iconEl.setAttr("style", `color: ${habit.color || "currentColor"}; font-size: 24px;`);
+      if (iconName in icons) {
+          const iconNode = icons[iconName as keyof typeof icons]; // get the IconNode
+          svg = createElement(iconNode);
+          // console.log("svg", svg) // TESTED
+      } else {
+          console.warn(`[HabitSidebar] Unknown Lucide icon: '${iconName}', using fallback.`);
+          svg = createElement(icons["Book"]);
       }
+
+      svg.setAttribute("width", "24");
+      svg.setAttribute("height", "24");
+      svg.setAttribute("stroke", habit.color || "currentColor");
+      svg.setAttribute("stroke-width", "2");
+      svg.setAttribute("fill", "none");
+
+      // Append to your habit card
+      iconBox.appendChild(svg);
+
+      iconBox.onclick = async () => {
+          await markHabitDoneToday(this.app, habit);
+          this.plugin.refreshSidebar?.();
+        };
+          
+    }
   }      
 
   async onOpen() {
