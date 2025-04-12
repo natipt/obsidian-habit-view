@@ -1,4 +1,4 @@
-export type HabitType = 'Daily' | 'Weekly' | 'Monthly';
+export type HabitType = 'daily' | 'weekly' | 'monthly';
 
 export interface HabitEntry {
     done: boolean;
@@ -8,7 +8,9 @@ export interface HabitEntry {
 
 export interface Habit {
   name: string;
+  path?: string;
   type?: HabitType;
+  hasSubhabits?: boolean;
   entries?: HabitEntry[];
   icon?: string;
   color?: string;

@@ -36,8 +36,11 @@ export async function loadHabits(app: App, basePath: string): Promise<Habit[]> {
 
       habits.push({
         name: file.basename,
-        type,
-        entries,
+        path: file.path,
+        type: type.toLowerCase() as "daily" | "weekly" | "monthly",
+        hasSubhabits: parsed.hasSubhabits,
+        entries: parsed.entries,
+        subhabits: parsed.subhabits,
         icon,
         color,
       });
