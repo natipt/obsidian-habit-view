@@ -8,8 +8,8 @@ export interface HabitEntry {
 
 export interface Habit {
   name: string;
-  type: HabitType;
-  entries: HabitEntry[];
+  type?: HabitType;
+  entries?: HabitEntry[];
   icon?: string;
   color?: string;
   subhabits?: Subhabit[];
